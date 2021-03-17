@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Expérimentation TFE</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="description" content="">
+  <!-- Meta Partage -->
+  <!-- Favicon -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="styles/app.css">
+</head>
+<body class="color" style="background-color: rgb(64, 191, 191);">
+  <div class="container">
+    <div class="container-div">
+      <h1>Expérimentation TFE</h1>
+      <p>Type de longueur d'onde: </p><select id="waveType">
+        <option>sine</option>
+        <option>square</option>
+        <option>sawtooth</option>
+        <option>triangle</option>
+      </select> 
+
+      <p>Note jouée: <span id="actualNote"></span></p>
+
+      <div class="div">
+        <div class="param">
+          <label>Teinte: <span data-p="color" id="inputP">180</span>° (<span id="actualColor">turquoise</span>)</label>
+          <input id="input" data-input="color" type="range" name="volume" min="0" max="360">
+        </div>
+    
+        <div class="param">
+          <label>Saturation: <span data-p="sat" id="inputP">50</span>%</label>
+          <input id="input" data-input="sat" type="range" name="volume" min="0" max="100">
+        </div>
+    
+        <div class="param">
+          <label>Luminiosité: <span data-p="lum" id="inputP">50</span>%</label>
+          <input id="input" data-input="lum" type="range" name="volume" min="0" max="100">
+        </div>
+        <div class="btn-group">
+          <button class="btn" id="play">Play</button>
+          <button class="btn" id="stop">Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <script src="scripts/app.js"></script>
+</body>
+</html>
