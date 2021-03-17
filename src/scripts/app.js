@@ -52,6 +52,7 @@ function declareValues() {
 };
 
 function setGain() {
+  g.gain.value = 0.5;
   //Si la couleur est lumineuse, alors le son s'estompe également
   if(lumValue >= 50) {
     lumValue = 100 - lumValue;
@@ -69,6 +70,12 @@ function setGain() {
   if(lumValue == 0 || lumValue == 100 || satValue == 0) {
     g.gain.value = 0;
   }
+}
+
+function setSoundOptions() {
+  actualNote.innerHTML = 100 + colorValue;
+  o.frequency.value = /*frq*/100 + colorValue;
+  setGain();
 }
 
 //Lorsqu'on déplace le slider, récupère la bonne value, la modifie dans le span comme dans la couleur
@@ -129,6 +136,9 @@ for (let i = 0; i < inputs.length; i++) {
         //frqValue = ;
       }
     }
+
+    setSoundOptions();
+    
   })
 };
 
@@ -142,20 +152,14 @@ var g = context.createGain();
 g.gain.value = 0;
 
 o.connect(g);
+o.type = "triangle";
 g.connect(context.destination);
 
-function startNote(e) {
-    target = e.currentTarget;
-    actualNote.innerHTML = 150 + colorValue;
-    o.type = waveType.value;
-    if (/*frq*/colorValue) {
-        o.frequency.value = /*frq*/150 + colorValue;
-        setGain();
-    }
+function startNote() {
+    setGain();
 }
 
-function stopNote(e) {
-    target = e.currentTarget;
+function stopNote() {
     g.gain.value = 0;
 }
 
