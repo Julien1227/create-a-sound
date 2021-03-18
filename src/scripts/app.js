@@ -131,53 +131,6 @@ for (let i = 0; i < inputs.length; i++) {
     
     p[i].innerHTML = inputs[i].value;
     color.style.backgroundColor = "hsl("+colorValue+", "+satValue+"%, "+input[2].value+"%)"
-    
-    //Si il s'agit du slider de couleur
-    let target = e.currentTarget;
-    if(target.hasAttribute('data-input', 'color') == true) {
-      //Détection de la teinte et chargement du bon son
-      if(colorValue < 25 ) {
-        actualColor.innerHTML = "rouge";
-        //frqValue = ;
-        
-      }else if(colorValue >= 25 && colorValue <= 45 ) {
-        actualColor.innerHTML = "orange";
-        //frqValue = ;
-        
-      }else if(colorValue > 45 && colorValue <= 70 ) {
-        actualColor.innerHTML = "jaune";
-        //frqValue = ;
-        
-      }else if(colorValue > 70 && colorValue <= 140 ) {
-        actualColor.innerHTML = "vert";
-        //frqValue = ;
-        
-      }else if(colorValue > 140 && colorValue <= 185 ) {
-        actualColor.innerHTML = "turquoise";
-        //frqValue = ;
-        
-      }else if(colorValue > 185 && colorValue <= 215 ) {
-        actualColor.innerHTML = "bleu claire";
-        //frqValue = ;
-        
-      }else if(colorValue > 215 && colorValue <= 250 ) {
-        actualColor.innerHTML = "bleu foncé";
-        //frqValue = ;
-        
-      }else if(colorValue > 250 && colorValue <= 300 ) {
-        actualColor.innerHTML = "mauve";
-        //frqValue = ;
-        
-      }else if(colorValue > 300 && colorValue <= 335 ) {
-        actualColor.innerHTML = "rose";
-        //frqValue = ;
-        
-      }else if(colorValue > 335 && colorValue <= 360 ) {
-        actualColor.innerHTML = "rouge";
-        //frqValue = ;
-      }
-    }
-    
   })
 };
 
