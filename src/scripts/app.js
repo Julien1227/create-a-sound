@@ -5,13 +5,14 @@ var myBuffer;
 
 var request = new XMLHttpRequest();
 
-
+//VARIABLES DOCUMENT
 var input = document.querySelectorAll('#input');
 var p = document.querySelectorAll('#inputP');
 var actualColor = document.getElementById('actualColor');
 var actualNote = document.getElementById('actualNote');
 const clickPlay = document.getElementById('play');
 const clickStop = document.getElementById('stop');
+const color = document.querySelector('.color');
 
 //Récupère les inputs
 var inputs = [];
@@ -38,17 +39,21 @@ p.forEach((p) => {
   count++;
 });
 
+// VARIABLES AUDIO
 var lumValue = 50;
 var satValue = 50;
 var colorValue = 180;
+
+var redValue = 0;
+var greenValue = 0;
+var blueValue = 0;
+
+var frq = 0;
 
 function declareValues() {
   lumValue = Number(inputs[2].value);
   satValue = Number(inputs[1].value);
   colorValue = Number(inputs[0].value);
-  if(colorValue == 0) {
-    colorValue = 1;
-  }
 };
 
 function setGain() {
@@ -59,7 +64,6 @@ function setGain() {
     lumValue = 100 - lumValue;
   }
 
-  //Prends la valeur la plus basse et l'utilise pour le gain
   gainValue = (satValue/100)*(lumValue/100);
   gainValue = (Math.round(gainValue * 100) / 100)*2;
 
@@ -69,23 +73,64 @@ function setGain() {
   }
 
   g.gain.value = gainValue;
-  console.log(gainValue);
+  //console.log(gainValue);
 }
 
 function setSoundOptions() {
-  actualNote.innerHTML = 100 + colorValue;
-  o.frequency.value = /*frq*/100 + colorValue;
+  setFrequency();
+  actualNote.innerHTML = frq;
   setGain();
 }
 
+function setFrequency() {
+  HSLtoRGB(colorValue, satValue, lumValue);
+  frq = Math.round((redValue*1 + greenValue*1.8 + blueValue*0.3) * 100) / 100;
+  o.frequency.value = frq; //Ici interviens la valeur de ma couleur
+}
+
+//source: https://css-tricks.com/converting-color-spaces-in-javascript/
+//Convertit ma valeur HSL vers RGB
+function HSLtoRGB(h,s,l) {
+
+  // doit être une fraction de 1
+  s /= 100;
+  l /= 100;
+
+  let c = (1 - Math.abs(2 * l - 1)) * s,
+      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+      m = l - c/2,
+      r = 0,
+      g = 0,
+      b = 0;
+
+
+  if (0 <= h && h < 60) {
+    r = c; g = x; b = 0;  
+  } else if (60 <= h && h < 120) {
+    r = x; g = c; b = 0;
+  } else if (120 <= h && h < 180) {
+    r = 0; g = c; b = x;
+  } else if (180 <= h && h < 240) {
+    r = 0; g = x; b = c;
+  } else if (240 <= h && h < 300) {
+    r = x; g = 0; b = c;
+  } else if (300 <= h && h < 360) {
+    r = c; g = 0; b = x;
+  }
+
+  redValue = Math.round((r + m) * 255);
+  greenValue = Math.round((g + m) * 255);
+  blueValue = Math.round((b + m) * 255);
+}
+
 //Lorsqu'on déplace le slider, récupère la bonne value, la modifie dans le span comme dans la couleur
-var color = document.querySelector('.color');
 for (let i = 0; i < inputs.length; i++) {
   inputs[i].addEventListener('input', (e) => {
     declareValues();
+    setSoundOptions();
     
     p[i].innerHTML = inputs[i].value;
-    color.style.backgroundColor = "hsl("+colorValue+", "+satValue+"%, "+lumValue+"%)"
+    color.style.backgroundColor = "hsl("+colorValue+", "+satValue+"%, "+input[2].value+"%)"
     
     //Si il s'agit du slider de couleur
     let target = e.currentTarget;
@@ -132,16 +177,11 @@ for (let i = 0; i < inputs.length; i++) {
         //frqValue = ;
       }
     }
-
-    setSoundOptions();
     
   })
 };
 
-const waveType = document.getElementById('waveType');
-
 var o = context.createOscillator();
-o.type = /*frq*/colorValue; //Ici interviens la valeur de ma couleur
 o.start(0);
 
 var g = context.createGain();
