@@ -52,24 +52,24 @@ function declareValues() {
 };
 
 function setGain() {
-  g.gain.value = 0.5;
+  var gainValue = 0.5;
+  g.gain.value = gainValue;
   //Si la couleur est lumineuse, alors le son s'estompe également
   if(lumValue >= 50) {
     lumValue = 100 - lumValue;
-    //console.log(lumValue);
   }
 
   //Prends la valeur la plus basse et l'utilise pour le gain
-  if(satValue < lumValue){
-    g.gain.value = satValue/100;  
-  }else if(lumValue < satValue){
-    g.gain.value = lumValue/100;
-  }
+  gainValue = (satValue/100)*(lumValue/100);
+  gainValue = (Math.round(gainValue * 100) / 100)*2;
 
   //Si couleur invisible -> son 0
   if(lumValue == 0 || lumValue == 100 || satValue == 0) {
-    g.gain.value = 0;
+    gainValue = 0;
   }
+
+  g.gain.value = gainValue;
+  console.log(gainValue);
 }
 
 function setSoundOptions() {
@@ -84,11 +84,7 @@ for (let i = 0; i < inputs.length; i++) {
   inputs[i].addEventListener('input', (e) => {
     declareValues();
     
-    if(i != 0) {
-      p[i].innerHTML = inputs[i].value;
-    }else{
-      p[i].innerHTML = inputs[i].value;
-    }
+    p[i].innerHTML = inputs[i].value;
     color.style.backgroundColor = "hsl("+colorValue+", "+satValue+"%, "+lumValue+"%)"
     
     //Si il s'agit du slider de couleur
